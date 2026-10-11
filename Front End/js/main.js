@@ -109,30 +109,29 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ==========================================================================
    SKILLS TABS (Automation vs Software)
    ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  function initSkillsTabs() {
-    const tabBtns = document.querySelectorAll('.skills-tab-btn');
-    const tabPanels = document.querySelectorAll('.skills-section-panel');
 
-    if (!tabBtns.length || !tabPanels.length) return;
+function initSkillsTabs() {
+  const tabBtns = document.querySelectorAll('.skills-tab-btn');
+  const tabPanels = document.querySelectorAll('.skills-section-panel');
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabPanels.forEach(p => p.classList.remove('active'));
+  if (!tabBtns.length || !tabPanels.length) return;
 
-        btn.classList.add('active');
-        const targetId = btn.getAttribute('data-tab');
-        const targetPanel = document.getElementById(targetId);
-        if (targetPanel) {
-          targetPanel.classList.add('active');
-        }
-      });
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+
+      const targetId = btn.getAttribute('data-tab');
+      const targetPanel = document.getElementById(targetId);
+
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
     });
-  }
-
-  initSkillsTabs();
-});
+  });
+}
 
 /* ==========================================================================
    PROJECT SECTIONS TOGGLING (IoT Projects & Software Projects)

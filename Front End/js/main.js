@@ -4,7 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initTypewriter();
+  // initTypewriter();
   initNavigation();
   initSkillsTabs();
   initProjectFilters();

@@ -142,10 +142,3 @@ export async function onRequestPost({ request, env }) {
   }
 }
 
-// Reject methods other than POST.
-export async function onRequest({ request }) {
-  return jsonResponse(
-    { error: "Method not allowed." },
-    405
-  );
-}

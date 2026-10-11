@@ -186,6 +186,11 @@ function initModals() {
   const modalTitle = document.getElementById('modalTitle');
   const modalBody = document.getElementById('modalBody');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
+  
+  if (!modalOverlay || !modalTitle || !modalBody || !modalCloseBtn) {
+  console.warn('Modal elements are missing. Modal initialization skipped.');
+  return;
+}
 
   function openModal(title, content) {
     modalTitle.innerHTML = title;

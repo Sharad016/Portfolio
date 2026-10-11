@@ -4,13 +4,14 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // initTypewriter();
   initNavigation();
   initSkillsTabs();
   initProjectFilters();
   initModals();
   initContactForm();
-  initCopyButtons();
+
+  // Add this only if initCopyButtons() is defined.
+  // initCopyButtons();
 });
 
 /* ==========================================================================

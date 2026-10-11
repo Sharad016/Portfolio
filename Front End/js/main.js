@@ -324,45 +324,75 @@ function initModals() {
    CONTACT FORM HANDLER
    ========================================================================== */
 function initContactForm() {
-  const contactForm = document.getElementById('contactForm');
+  const contactForm = document.getElementById("contactForm");
   if (!contactForm) return;
 
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    if (!contactForm.reportValidity()) return;
+
+    const submitBtn = contactForm.querySelector(
+      'button[type="submit"]'
+    );
+
     const originalText = submitBtn.innerHTML;
 
-    // Loading state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending Message...`;
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const message = document.getElementById("contactMessage").value.trim();
+    const website = document.getElementById("contactWebsite")?.value || "";
 
-    // Simulate async submission
-    setTimeout(() => {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML =
+      '<i class="fa-solid fa-spinner fa-spin"></i> Sending Message...';
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          website
+        })
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not send your message.");
+      }
+
+      contactForm.reset();
+
+      if (result.notificationSent) {
+        showToast(
+          "Thank you! Your message has been saved and sent.",
+          "fa-circle-check"
+        );
+      } else {
+        showToast(
+          "Your message was saved, but email notification failed.",
+          "fa-circle-exclamation"
+        );
+      }
+
+    } catch (error) {
+      console.error("Contact form error:", error);
+
+      showToast(
+        "Could not submit your message. Please try again.",
+        "fa-circle-exclamation"
+      );
+
+    } finally {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
-      contactForm.reset();
-      showToast("Thank you! Your message has been sent successfully.", "fa-circle-check");
-    }, 1200);
-  });
-}
-
-/* ==========================================================================
-   COPY TO CLIPBOARD UTILITY
-   ========================================================================== */
-function initCopyButtons() {
-  const copyButtons = document.querySelectorAll('.copy-btn');
-  copyButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const textToCopy = btn.getAttribute('data-copy');
-      if (textToCopy) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          showToast(`Copied "${textToCopy}" to clipboard!`, 'fa-clipboard-check');
-        }).catch(() => {
-          showToast(`Selected text: ${textToCopy}`, 'fa-info');
-        });
-      }
-    });
+    }
   });
 }
 

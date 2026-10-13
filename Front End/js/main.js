@@ -1,8 +1,3 @@
-/**
- * Portfolio JavaScript Functionality
- * Author: Alex Morgan Portfolio
- */
-
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initSkillsTabs();
@@ -26,27 +21,37 @@ function initNavigation() {
 
   // Automatically inject a close button into the mobile nav drawer if not already present
   let menuCloseBtn = document.getElementById('menuCloseBtn');
+
   if (navLinks && !menuCloseBtn) {
     menuCloseBtn = document.createElement('button');
     menuCloseBtn.id = 'menuCloseBtn';
     menuCloseBtn.className = 'menu-close-btn';
     menuCloseBtn.setAttribute('aria-label', 'Close navigation menu');
     menuCloseBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-    navLinks.prepend(menuCloseBtn); // Places it at the very top of the drawer
+    navLinks.prepend(menuCloseBtn);
   }
 
   // Mobile menu open/close logic
   if (menuToggleBtn && navLinks) {
     const toggleMenu = (open) => {
-      const isOpen = open !== undefined ? open : !navLinks.classList.contains('open');
+      const isOpen =
+        open !== undefined ? open : !navLinks.classList.contains('open');
+
       navLinks.classList.toggle('open', isOpen);
-      
+
       const icon = menuToggleBtn.querySelector('i');
+
       if (icon) {
-        icon.classList.replace(isOpen ? 'fa-bars' : 'fa-xmark', isOpen ? 'fa-xmark' : 'fa-bars');
+        icon.classList.replace(
+          isOpen ? 'fa-bars' : 'fa-xmark',
+          isOpen ? 'fa-xmark' : 'fa-bars'
+        );
       }
+
+      menuToggleBtn.setAttribute('aria-expanded', String(isOpen));
     };
 
+    // Register the hamburger click handler only once
     menuToggleBtn.addEventListener('click', () => toggleMenu());
 
     if (menuCloseBtn) {
@@ -60,7 +65,9 @@ function initNavigation() {
 
     // Close on pressing the Escape key
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') toggleMenu(false);
+      if (e.key === 'Escape') {
+        toggleMenu(false);
+      }
     });
   }
 
@@ -80,6 +87,7 @@ function initNavigation() {
     sections.forEach(section => {
       const top = section.offsetTop;
       const height = section.offsetHeight;
+
       if (scrollPos >= top && scrollPos < top + height) {
         currentSection = section.getAttribute('id');
       }
@@ -87,6 +95,7 @@ function initNavigation() {
 
     navItems.forEach(link => {
       link.classList.remove('active');
+
       if (link.getAttribute('href') === `#${currentSection}`) {
         link.classList.add('active');
       }
@@ -95,17 +104,13 @@ function initNavigation() {
 
   // Scroll to Top Button (if applicable)
   const scrollTopBtn = document.getElementById('scrollTopBtn');
+
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 }
-
-// Run initialization safely on page load
-document.addEventListener('DOMContentLoaded', () => {
-  initNavigation();
-});
 
 /* ==========================================================================
    SKILLS TABS (Automation vs Software)
@@ -137,6 +142,7 @@ function initSkillsTabs() {
 /* ==========================================================================
    PROJECT SECTIONS TOGGLING (IoT Projects & Software Projects)
    ========================================================================== */
+
 function initProjectFilters() {
   const filterBtns = document.querySelectorAll('.project-filter-btn');
   const iotSection = document.getElementById('iotProjectsSection');
@@ -157,6 +163,7 @@ function initProjectFilters() {
           iotSection.style.display = 'block';
           iotSection.style.animation = 'fadeIn 0.4s ease';
         }
+
         if (softwareSection) {
           softwareSection.style.display = 'none';
         }
@@ -164,6 +171,7 @@ function initProjectFilters() {
         if (iotSection) {
           iotSection.style.display = 'none';
         }
+
         if (softwareSection) {
           softwareSection.style.display = 'block';
           softwareSection.style.animation = 'fadeIn 0.4s ease';
@@ -173,24 +181,20 @@ function initProjectFilters() {
   });
 }
 
-// Don't forget to call it on page load
-document.addEventListener('DOMContentLoaded', () => {
-  initProjectFilters();
-});
-
 /* ==========================================================================
    MODAL CONTROLLER (Blog & Resume)
    ========================================================================== */
+
 function initModals() {
   const modalOverlay = document.getElementById('genericModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalBody = document.getElementById('modalBody');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
-  
+
   if (!modalOverlay || !modalTitle || !modalBody || !modalCloseBtn) {
-  console.warn('Modal elements are missing. Modal initialization skipped.');
-  return;
-}
+    console.warn('Modal elements are missing. Modal initialization skipped.');
+    return;
+  }
 
   function openModal(title, content) {
     modalTitle.innerHTML = title;
@@ -205,6 +209,7 @@ function initModals() {
   }
 
   modalCloseBtn.addEventListener('click', closeModal);
+
   modalOverlay.addEventListener('click', (e) => {
     if (e.target === modalOverlay) closeModal();
   });
@@ -217,6 +222,7 @@ function initModals() {
 
   // Blog modal triggers
   const blogTriggers = document.querySelectorAll('.read-blog-trigger');
+
   const blogData = {
     blog1: {
       title: "How We Scaled Test Automation: 0 to 500 Daily Tests in CI/CD",
@@ -233,6 +239,7 @@ function initModals() {
         </div>
       `
     },
+
     blog2: {
       title: "Architecting Modern Microservices: FastAPI, Docker & Event-Driven Pipelines",
       content: `
@@ -248,6 +255,7 @@ function initModals() {
         </div>
       `
     },
+
     blog3: {
       title: "PLC to Cloud: Bridging Operational Technology with Modern Web APIs",
       content: `
@@ -267,6 +275,7 @@ function initModals() {
     trigger.addEventListener('click', () => {
       const blogId = trigger.getAttribute('data-blog');
       const data = blogData[blogId];
+
       if (data) {
         openModal(data.title, data.content);
       }
@@ -275,6 +284,7 @@ function initModals() {
 
   // Resume Preview Modal Trigger
   const previewResumeBtn = document.getElementById('previewResumeBtn');
+
   if (previewResumeBtn) {
     previewResumeBtn.addEventListener('click', () => {
       const resumeContent = `
@@ -320,6 +330,7 @@ function initModals() {
           </div>
         </div>
       `;
+
       openModal("Curriculum Vitae Preview", resumeContent);
     });
   }
@@ -328,6 +339,7 @@ function initModals() {
 /* ==========================================================================
    CONTACT FORM HANDLER
    ========================================================================== */
+
 function initContactForm() {
   const contactForm = document.getElementById("contactForm");
   if (!contactForm) return;
@@ -404,8 +416,10 @@ function initContactForm() {
 /* ==========================================================================
    TOAST NOTIFICATION COMPONENT
    ========================================================================== */
+
 function showToast(message, iconClass = 'fa-circle-check') {
   let toast = document.getElementById('toastNotification');
+
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'toastNotification';
@@ -413,7 +427,9 @@ function showToast(message, iconClass = 'fa-circle-check') {
     document.body.appendChild(toast);
   }
 
-  toast.innerHTML = `<i class="fa-solid ${iconClass} toast-icon"></i> <span>${message}</span>`;
+  toast.innerHTML =
+    `<i class="fa-solid ${iconClass} toast-icon"></i> <span>${message}</span>`;
+
   toast.classList.add('show');
 
   setTimeout(() => {

@@ -472,6 +472,8 @@ img {
 }
 
 .menu-toggle-btn {
+  position: fixed;
+  right: 30px;
   display: none;
   background: transparent;
   border: none;
@@ -479,6 +481,7 @@ img {
   font-size: 1.4rem;
   cursor: pointer;
   padding: 0.5rem;
+
 }
 
 /* ==========================================================================
@@ -1961,6 +1964,8 @@ textarea.form-control {
 }
  /* Theme Toggle Button */
  .theme-toggle {
+  position: fixed;
+  right: 80px;
   width: 42px;
   height: 42px;
   display: inline-flex;

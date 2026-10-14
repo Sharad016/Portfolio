@@ -436,3 +436,38 @@ function showToast(message, iconClass = 'fa-circle-check') {
     toast.classList.remove('show');
   }, 3500);
 }
+
+// Theme Toggelling
+
+const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+  const root = document.documentElement;
+
+  // Load saved theme
+  const savedTheme = localStorage.getItem("theme") || "light";
+  root.setAttribute("data-theme", savedTheme);
+  updateThemeButton(savedTheme);
+
+  // Toggle theme
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = root.getAttribute("data-theme") || "light";
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+    root.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateThemeButton(newTheme);
+  });
+
+  function updateThemeButton(theme) {
+  themeIcon.className =
+    theme === "dark"
+      ? "fa-solid fa-circle-half-stroke"
+      : "fa-solid fa-moon";
+
+  themeToggle.setAttribute(
+    "aria-label",
+    theme === "dark"
+      ? "Switch to light theme"
+      : "Switch to dark theme"
+  );
+}
